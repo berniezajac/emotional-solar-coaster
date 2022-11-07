@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  influxdb:
+    image: influxdb:2.4.0
+    restart: always
+    env_file:
+     - 'main.env'
+    volumes:
+     - $PWD/influxdb/data:/var/lib/influxdb2
+     - ./influxdb/influx_init.iql:/docker-entrypoint-initdb.d/influx_init.iql
+    ports:
+      - "8086:8086"
+    networks:
+     - grafana-influxdb-network
+
+  grafana:
+    image: grafana/grafana:9.2.2
+    restart: always
+    ports:
+      - '3000:3000'
+    volumes:
+      - $PWD/grafana/data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - 'main.env'
+    networks:
+     - grafana-influxdb-network
+    depends_on:
+      - influxdb
+
+  chronograf:
+    image: chronograf:1.9.4
+    restart: always
+    ports:
+      - '8888:8888'
+    depends_on:
+      - influxdb
+    env_file:
+      - 'main.env'
+    networks:
+     - grafana-influxdb-network
+
+  telegraf:
+    image: telegraf:latest
+    restart: always
+    volumes:
+     - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+     - ./telegraf/scripts/:/etc/telegraf/scripts/
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+     - /sys:/rootfs/sys:ro
+     - /proc:/rootfs/proc:ro
+     - /etc:/rootfs/etc:ro
+    env_file:
+      - ./main.env
+    depends_on:
+      - influxdb
+    networks:
+     - grafana-influxdb-network
+
+networks:
+  grafana-influxdb-network:
+    driver: bridge
