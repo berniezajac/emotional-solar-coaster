@@ -39,8 +39,8 @@ git clone git@github.com:berniezajac/emotional-solar-coaster.git
 
 # set perms on bound volume directories
 cd ~/workspace/emotional-solar-coaster
-sudo chown -R 472:472 influxdb/data
-sudo chown -R 472:472 grafana/data
+mkdir -p influxdb/data && sudo chown -R 472:472 influxdb/data
+mkdir -p grafana/data && sudo chown -R 472:472 grafana/data
 
 # update main.env with enphase ip and JWT
 nano main.env
