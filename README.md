@@ -49,9 +49,15 @@ Single DB "enphase". Nothing fancy.
 
 Single Dashboard "Emotional Solar Coaster".
 
-Uses a single constant "variable" that specifies the InfluxDB Bucket name - `INFLUXDB_BUCKET` - for the InfluxDB queries within the dashboard.
+Uses a single constant "variable" that specifies the InfluxDB Bucket name - `INFLUXDB_BUCKET` - for the InfluxDB queries within the dashboard. N.B. I could not find a way to populate the variable value directly from the `main.env` or environment variables - so it is hardcoded within the `solar-main.json` dashboard.
 
-N.B. I could not find a way to populate the variable value directly from the `main.env` or environment variables - so it is hardcoded within the `solar-main.json` dashboard.
+NOTE: The guage min/max values are inferred from theoretical limits of my particular system - adjust these as required. For example:
+* `Current Production` max value of 5,850
+* `Current Consumption` max value of 7,000 (I really hope I never hit that!)
+* `Total Daily Production` max value of 65,000
+* `Total Daily Consumption` max value of 55,000
+* `Current Import/Export` min/max value of -6,000/+6,000 (negative when importing from grid)
+* `Total Daily Export/Import` min/max value of -40,000/+40,000 (negative when net import grid greater than production)
 
 # Raspberry Pi setup:
 
