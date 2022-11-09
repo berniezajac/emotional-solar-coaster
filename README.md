@@ -8,7 +8,7 @@ This is running on a Raspberry Pi 3b+, although also tested on a Macbook Pro M1 
 
 Setup inspired by https://github.com/testsmith-io/jmeter-influxdb-grafana-docker
 
-Disclaimer: This is the first time I've toyed with Telegraf, InfluxDB and Grafana - so things might be a bit messy :)
+Disclaimer: This is the first time I've toyed with Telegraf, InfluxDB and Grafana - so things might be a bit messy :) This is provided as is and no support provided.
 
 ## Telegraf
 
@@ -49,9 +49,15 @@ Single DB "enphase". Nothing fancy.
 
 Single Dashboard "Emotional Solar Coaster".
 
-Uses a single constant "variable" that specifies the InfluxDB Bucket name - `INFLUXDB_BUCKET` - for the InfluxDB queries within the dashboard. N.B. I could not find a way to populate the variable value directly from the `main.env` or environment variables - so it is hardcoded within the `solar-main.json` dashboard.
+### Dashboard Variables:
 
-NOTE: The guage min/max values are inferred from theoretical limits of my particular system - adjust these as required. For example:
+* `INFLUXDB_BUCKET` - specifies the InfluxDB Bucket for the InfluxDB queries within the dashboard
+  * N.B. I could not find a way to populate the variable value directly from the `main.env` or environment variables - so it is hardcoded within the `solar-main.json` dashboard.
+* `GRAPH_WINDOW_SIZE` - specifies an interval set allowing the aggregate window size on the graph queries to be changed dynamically
+
+### Gauges
+
+NOTE: The gauge min/max values are inferred from theoretical limits of my particular system - adjust these as required. For example:
 * `Current Production` max value of 5,850
 * `Current Consumption` max value of 7,000 (I really hope I never hit that!)
 * `Total Daily Production` max value of 65,000
