@@ -100,7 +100,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"inverters\")\n  |> filter(fn: (r) => r[\"_field\"] == \"lastReportWatts\")\n",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"inverters\")\n  |> filter(fn: (r) => r[\"_field\"] == \"lastReportWatts\")\n  |> last()",
           "refId": "A"
         }
       ],
@@ -173,7 +173,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"production\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_wNow\")\n",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"production\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_wNow\")\n  |> last()",
           "refId": "A"
         }
       ],
@@ -329,7 +329,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"production\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_whToday\")",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"production\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_whToday\")\n  |> last()",
           "refId": "A"
         }
       ],
@@ -389,7 +389,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"total-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalConsumption_wNow\")\n",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"total-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalConsumption_wNow\")\n  |> last()",
           "refId": "A"
         }
       ],
@@ -449,7 +449,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"total-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalConsumption_whToday\")",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"total-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"totalConsumption_whToday\")\n  |> last()",
           "refId": "A"
         }
       ],
@@ -603,7 +603,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"net-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"net-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
           "refId": "A"
         }
       ],
@@ -667,7 +667,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_whToday\" or r[\"_field\"] == \"totalConsumption_whToday\")\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"production_whToday\" or r[\"_field\"] == \"totalConsumption_whToday\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
           "refId": "A"
         }
       ],
@@ -706,9 +706,9 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "selected": false,
-          "text": "120s",
-          "value": "120s"
+          "selected": true,
+          "text": "60s",
+          "value": "60s"
         },
         "description": "Aggregate window size",
         "hide": 0,
@@ -731,7 +731,7 @@
             "value": "45s"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "60s",
             "value": "60s"
           },
@@ -741,7 +741,7 @@
             "value": "90s"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "120s",
             "value": "120s"
           },
@@ -765,13 +765,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Emotional Solar Coaster",
   "uid": "4Nxjkgv4k",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
