@@ -7,7 +7,7 @@ services:
     env_file:
      - 'main.env'
     volumes:
-     - $PWD/influxdb/data:/var/lib/influxdb2
+     - ./influxdb/data:/var/lib/influxdb2
      - ./influxdb/influx_init.iql:/docker-entrypoint-initdb.d/influx_init.iql
     ports:
       - "8086:8086"
@@ -20,7 +20,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - $PWD/grafana/data:/var/lib/grafana
+      - ./grafana/data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
     env_file:
       - 'main.env'

@@ -1,3 +1,4 @@
 influxdb/data
 grafana/data
 main.env
+.DS_Store
