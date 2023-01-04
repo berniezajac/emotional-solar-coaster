@@ -2,6 +2,8 @@
 
 An experimental Docker setup that spins up Telegraf, InfluxDB and Grafana with a pre-made dashboard that monitors an Enphase Envoy solar PV system. This is currently running on an Envoy with firmware version D7.0.88.
 
+Also includes some basic support for AirThings Wave air quality monitor via their Consumer API (in separate branch)
+
 ![Grafana Dashboard](docs/images/emotional-solar-coaster.png)
 
 This is running on a Raspberry Pi 3b+, although also tested on a Macbook Pro M1 Max running Mac OS 12.6.1.
@@ -17,6 +19,8 @@ Uses two HTTP inputs to read metrics from two Envoy API endpoints, and pushes th
 * `/production.json?details=1`
 * `/api/v1/production/inverters`
 
+An additional API endpoint is queried for air quality data as recorded by an AirThings device. This uses OAuth2 authentication
+
 ### Config
 
 There are various configuration items available within `main.env`, some of these include:
@@ -25,8 +29,16 @@ There are various configuration items available within `main.env`, some of these
 * `DOCKER_TELEGRAF_INTERVAL` - the interval that API endpoints are polled
 * `DOCKER_TELEGRAF_AUTH_RENEW` - how often Telegraf should renew its cookie auth value (see below)
 
+#### AirThings
 
-### Authentication
+Specific to AirThings:
+
+* `AIRTHINGS_API_INTERVAL` - Poll interval. Separate to the global Telegraf one as AirThings' API is rate limited to 120req/hr. Suggest > 60s.
+* `AIRTHINGS_OAUTH_CLIENT_ID` - Your Client ID
+* `AIRTHINGS_OAUTH_SECRET` - Your Client Secret
+* `AIRTHINGS_SERIAL_1` - Serial number of your 1st device (leaving room for more devices in future?)
+
+### Envoy Authentication
 
 The Envoy API endpoints all require cookie authentication. This is handled by Telegraf via the http input `cookie_auth` properties - check the telegraf.conf file for examples.
 
