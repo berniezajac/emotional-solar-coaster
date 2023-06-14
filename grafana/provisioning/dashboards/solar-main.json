@@ -810,6 +810,72 @@
             "mode": "thresholds"
           },
           "mappings": [],
+          "max": 6000,
+          "min": -6000,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 15
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PFF9E94AB878795B6"
+          },
+          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"net-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
+          "refId": "A"
+        }
+      ],
+      "title": "Current Export / Import",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PFF9E94AB878795B6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
           "max": 35000,
           "min": 0,
           "thresholds": {
@@ -844,7 +910,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 0,
+        "x": 4,
         "y": 15
       },
       "id": 46,
@@ -874,72 +940,6 @@
         }
       ],
       "title": "Daily Import",
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 6000,
-          "min": -6000,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 0
-              }
-            ]
-          },
-          "unit": "watt"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 15
-      },
-      "id": 18,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PFF9E94AB878795B6"
-          },
-          "query": "from(bucket: \"${INFLUXDB_BUCKET}\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"measurementType\"] == \"net-consumption\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))",
-          "refId": "A"
-        }
-      ],
-      "title": "Current Export / Import",
       "transparent": true,
       "type": "stat"
     },
@@ -1038,7 +1038,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1075,7 +1075,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "import \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] < 0) \n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (20.0/3600.0) })) // converting to watt-hours\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 * 0.12 / 1000.0}))\n  |> sum() // getting the total power exported\n  |> yield(name: \"totalExportFeedinCredit\")",
+          "query": "\nimport \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] < 0) // only want points where we are exporting (neg values)\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * (20.0/3600.0) })) // converting to watt-hours\n  |> map(fn: (r) => ({r with _value: float(v: r._value) * -1.00 }))\n  |> sum() // getting the total power consumed\n  |> map(fn: (r) => ({ \n    r with _value: if r._value <= ${ELEC_EXPORT_TIER1_LIMIT}\n      then r._value * ${ELEC_EXPORT_TIER1_PER_KWH}\n      else ${ELEC_EXPORT_TIER1_LIMIT} * ${ELEC_EXPORT_TIER1_PER_KWH} + (r._value - ${ELEC_EXPORT_TIER1_LIMIT}) * ${ELEC_EXPORT_TIER2_PER_KWH} \n  })) // calculate the cost with tiered rates. 12c for first 12kWh, 5c thereafter\n  |> map(fn: (r) => ({ r with _value: r._value / 1000.0 })) // convert to dollars\n  |> yield(name: \"totalDailyGridExport\")",
           "refId": "A"
         }
       ],
@@ -1100,7 +1100,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1137,7 +1137,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "import \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] > 0) // filtering out negative or zero values\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (20.0/3600.0)})) // converting to watt-hours\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 0.00032043})) // convert into dollars\n  |> sum() // getting the total power consumed\n  |> yield(name: \"totalImport\")\n  ",
+          "query": "import \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] > 0) // filtering out negative or zero values\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (20.0/3600.0)})) // converting to watt-hours\n  |> sum() // getting the total power consumed\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (${ELEC_GENERAL_USAGE_PER_KWH}/1000.0) })) // convert into dollars\n  |> yield(name: \"totalImport\")\n  ",
           "refId": "A"
         }
       ],
@@ -1162,7 +1162,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "blue",
                 "value": null
               }
             ]
@@ -1199,7 +1199,7 @@
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "import \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] > 0) // filtering out negative or zero values\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (20.0/3600.0)})) // converting to watt-hours\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 0.00032043})) // convert into dollars\n  |> sum() // getting the total power consumed\n  |> map(fn: (r) => ({ r with _value: float(v: r._value + 1.33991 + .08526)})) // add daily supply + solar meter charge\n  |> yield(name: \"totalImport\")\n  ",
+          "query": "import \"strings\"\ntoday = time(v: \"${strings.substring(v: string(v: now()), start: 0, end: 10)}T00:00:00+10:00\")\n\nfrom(bucket: \"Solar\")\n  |> range(start: today, stop: now())\n  |> filter(fn: (r) => r[\"_measurement\"] == \"productionjson\")\n  |> filter(fn: (r) => r[\"_field\"] == \"netConsumption_wNow\")\n  |> filter(fn: (r) => r[\"_value\"] > 0) // filtering out negative or zero values\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (20.0/3600.0)})) // converting to watt-hours\n  |> sum() // getting the total power consumed\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * (${ELEC_GENERAL_USAGE_PER_KWH}/1000.0) })) // convert into dollars\n  |> map(fn: (r) => ({ r with _value: float(v: r._value + ${ELEC_DAILY_SUPPLY_CHARGE} + ${ELEC_SOLAR_METER_CHARGE})})) // add daily supply + solar meter charge\n  |> yield(name: \"totalImportWithCharges\")\n  ",
           "refId": "A"
         }
       ],
@@ -1287,6 +1287,54 @@
         "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
+      },
+      {
+        "description": "General Usage (per kWh) (in DOLLARS)",
+        "hide": 2,
+        "name": "ELEC_GENERAL_USAGE_PER_KWH",
+        "query": "0.32043",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "description": "Daily solar meter charge regardless of usage (in DOLLARS)",
+        "hide": 2,
+        "name": "ELEC_SOLAR_METER_CHARGE",
+        "query": "0.08526",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "description": "Daily supply charge regardless of usage (in DOLLARS)",
+        "hide": 2,
+        "name": "ELEC_DAILY_SUPPLY_CHARGE",
+        "query": "1.33991",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "description": "Solar export (Tier 2) - Everything after the first (X) kWh gets this lower feed in tariff (see ELEC_EXPORT_TIER1_LIMIT for initial limit) (in DOLLARS)",
+        "hide": 2,
+        "name": "ELEC_EXPORT_TIER2_PER_KWH",
+        "query": "0.05",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "description": "Solar export (Tier 1) - The first (X) kWh get this feed in tariff (see ELEC_EXPORT_TIER1_LIMIT for limit) (in DOLLARS)",
+        "hide": 2,
+        "name": "ELEC_EXPORT_TIER1_PER_KWH",
+        "query": "0.12",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "description": "Defines the limit of solar export that gets tier 1 feed in credit (in WATTS)",
+        "hide": 2,
+        "name": "ELEC_EXPORT_TIER1_LIMIT",
+        "query": "12000.0",
+        "skipUrlSync": false,
+        "type": "constant"
       }
     ]
   },
@@ -1298,6 +1346,6 @@
   "timezone": "",
   "title": "Emotional Solar Coaster",
   "uid": "4Nxjkgv4k",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
