@@ -220,7 +220,7 @@
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 8,
         "x": 4,
         "y": 1
@@ -311,10 +311,35 @@
           },
           "unit": "conppb"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2960033937 voc"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Kitchen"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2930128502 voc"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Upstairs"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 8,
         "x": 12,
         "y": 1
@@ -446,98 +471,6 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 60
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "airthings_2930128502 humidity"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Upstairs"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "airthings_2960033937 humidity"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Kitchen"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 4,
-        "x": 0,
-        "y": 9
-      },
-      "id": 44,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PFF9E94AB878795B6"
-          },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2930128502\" or r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"humidity\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
-          "refId": "A"
-        }
-      ],
-      "title": "Humidity (current)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
             "mode": "palette-classic"
           },
           "custom": {
@@ -589,13 +522,38 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2930128502 humidity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Upstairs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2960033937 humidity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Kitchen"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 8,
         "x": 4,
-        "y": 9
+        "y": 7
       },
       "id": 39,
       "options": {
@@ -683,13 +641,38 @@
           },
           "unit": "celsius"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2930128502 temp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Upstairs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2960033937 temp"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Kitchen"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 8,
         "x": 12,
-        "y": 9
+        "y": 7
       },
       "id": 40,
       "options": {
@@ -717,6 +700,98 @@
       ],
       "title": "Temp",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "PFF9E94AB878795B6"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2930128502 humidity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Upstairs"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "airthings_2960033937 humidity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Kitchen"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 9
+      },
+      "id": 44,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PFF9E94AB878795B6"
+          },
+          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2930128502\" or r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"humidity\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
+          "refId": "A"
+        }
+      ],
+      "title": "Humidity (current)",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -854,7 +929,7 @@
             "h": 6,
             "w": 6,
             "x": 0,
-            "y": 19
+            "y": 18
           },
           "id": 28,
           "options": {
@@ -957,7 +1032,7 @@
             "h": 6,
             "w": 12,
             "x": 6,
-            "y": 19
+            "y": 18
           },
           "id": 25,
           "options": {
@@ -1023,7 +1098,7 @@
             "h": 6,
             "w": 6,
             "x": 18,
-            "y": 19
+            "y": 18
           },
           "id": 30,
           "options": {
@@ -1088,7 +1163,7 @@
             "h": 5,
             "w": 8,
             "x": 0,
-            "y": 25
+            "y": 24
           },
           "id": 31,
           "options": {
@@ -1155,7 +1230,7 @@
             "h": 5,
             "w": 8,
             "x": 16,
-            "y": 25
+            "y": 24
           },
           "id": 33,
           "options": {
@@ -1191,7 +1266,7 @@
       "type": "row"
     },
     {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1199,450 +1274,451 @@
         "y": 18
       },
       "id": 12,
-      "panels": [],
-      "title": "Kitchen",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 2000,
-          "min": 200,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 900
-              }
-            ]
-          },
-          "unit": "ppm"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 0,
-        "y": 19
-      },
-      "id": 4,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
+      "panels": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"co2\")\n  |> last()",
-          "refId": "A"
-        }
-      ],
-      "title": "CO2 Current ",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 2000,
+              "min": 200,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 900
+                  }
+                ]
+              },
+              "unit": "ppm"
+            },
+            "overrides": []
           },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 19
+          },
+          "id": 4,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
             },
-            "lineInterpolation": "smooth",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "9.2.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
+              },
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"co2\")\n  |> last()",
+              "refId": "A"
+            }
+          ],
+          "title": "CO2 Current ",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PFF9E94AB878795B6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "smooth",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
             },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "voc"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "conppb"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 6,
+            "y": 19
+          },
+          "id": 29,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
             },
-            "thresholdsStyle": {
-              "mode": "off"
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
             }
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
               },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"co2\" or r[\"_field\"] == \"voc\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
+              "refId": "A"
+            }
+          ],
+          "title": "CO2 & VOCs",
+          "type": "timeseries"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "voc"
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "PFF9E94AB878795B6"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 2000,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 250
+                  },
+                  {
+                    "color": "red",
+                    "value": 1000
+                  }
+                ]
+              },
+              "unit": "conppb"
             },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "conppb"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 6,
-        "y": 19
-      },
-      "id": 29,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PFF9E94AB878795B6"
+            "overrides": []
           },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"co2\" or r[\"_field\"] == \"voc\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
-          "refId": "A"
-        }
-      ],
-      "title": "CO2 & VOCs",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 19
           },
-          "mappings": [],
-          "max": 2000,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "id": 8,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "9.2.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
               },
-              {
-                "color": "yellow",
-                "value": 250
-              },
-              {
-                "color": "red",
-                "value": 1000
-              }
-            ]
-          },
-          "unit": "conppb"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 18,
-        "y": 19
-      },
-      "id": 8,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"voc\")\n  |> last()",
+              "refId": "A"
+            }
           ],
-          "fields": "",
-          "values": false
+          "title": "VOCs (current)",
+          "type": "gauge"
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"voc\")\n  |> last()",
-          "refId": "A"
-        }
-      ],
-      "title": "VOCs (current)",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
-              {
-                "color": "yellow",
-                "value": 60
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 60
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
               },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
+              "unit": "percent"
+            },
+            "overrides": []
           },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 0,
-        "y": 25
-      },
-      "id": 22,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 0,
+            "y": 25
+          },
+          "id": 22,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.2.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
+              },
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"humidity\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
+              "refId": "A"
+            }
           ],
-          "fields": "",
-          "values": false
+          "title": "Humidity (current)",
+          "type": "stat"
         },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"humidity\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
-          "refId": "A"
-        }
-      ],
-      "title": "Humidity (current)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 12.1
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 35.1
+                  },
+                  {
+                    "color": "semi-dark-red",
+                    "value": 55.1
+                  },
+                  {
+                    "color": "dark-purple",
+                    "value": 150
+                  }
+                ]
+              },
+              "unit": "conμgm3"
+            },
+            "overrides": []
           },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 12.1
-              },
-              {
-                "color": "semi-dark-orange",
-                "value": 35.1
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 55.1
-              },
-              {
-                "color": "dark-purple",
-                "value": 150
-              }
-            ]
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 8,
+            "y": 25
           },
-          "unit": "conμgm3"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 8,
-        "y": 25
-      },
-      "id": 18,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+          "id": 18,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.2.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
+              },
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"pm25\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
+              "refId": "A"
+            }
           ],
-          "fields": "",
-          "values": false
+          "title": "PM2.5",
+          "type": "stat"
         },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "PFF9E94AB878795B6"
           },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"pm25\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
-          "refId": "A"
-        }
-      ],
-      "title": "PM2.5",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "PFF9E94AB878795B6"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
               },
-              {
-                "color": "yellow",
-                "value": 26
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 26
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
               },
-              {
-                "color": "red",
-                "value": 30
-              }
-            ]
+              "unit": "celsius"
+            },
+            "overrides": []
           },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 8,
-        "x": 16,
-        "y": 25
-      },
-      "id": 20,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
+          "gridPos": {
+            "h": 5,
+            "w": 8,
+            "x": 16,
+            "y": 25
+          },
+          "id": 20,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.2.2",
+          "targets": [
+            {
+              "datasource": {
+                "type": "influxdb",
+                "uid": "PFF9E94AB878795B6"
+              },
+              "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
+              "refId": "A"
+            }
           ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.2.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "PFF9E94AB878795B6"
-          },
-          "query": "from(bucket: \"Solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"airthings_2960033937\")\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\n  |> window(every: ${GRAPH_WINDOW_SIZE})\n  |> mean()\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)",
-          "refId": "A"
+          "title": "Temp (current)",
+          "type": "stat"
         }
       ],
-      "title": "Temp (current)",
-      "type": "stat"
+      "title": "Kitchen",
+      "type": "row"
     }
   ],
   "refresh": "30s",
@@ -1727,13 +1803,13 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Air Quality",
   "uid": "nk7PTtvVk",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
